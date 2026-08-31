@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WattWise | Energy Usage Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="topbar">
+    <div>
+        <div class="brand">⚡ WattWise</div>
+        <div class="subtitle">Rule-Based Energy Decision Support System</div>
+    </div>
+    <span class="badge">PYTHON PROJECT</span>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">ADVANCED DOMAIN</p>
+            <h1>WattWise</h1>
+            <p>Smart rule-based energy prediction, usage analysis, warnings and conservation recommendations.</p>
+        </div>
+        <div class="hero-icon">⚡</div>
+    </section>
+
+    <section class="grid two">
+        <div class="card">
+            <h2>1. Enter Monthly Usage</h2>
+            <p class="muted">Enter electricity consumption in kWh. Add values from oldest to newest.</p>
+            <div class="month-grid" id="monthGrid"></div>
+
+            <div class="form-row">
+                <label>
+                    Prediction Month
+                    <select id="predictionMonth">
+                        <option value="1">January</option><option value="2">February</option>
+                        <option value="3">March</option><option value="4">April</option>
+                        <option value="5">May</option><option value="6">June</option>
+                        <option value="7">July</option><option value="8">August</option>
+                        <option value="9">September</option><option value="10">October</option>
+                        <option value="11">November</option><option value="12">December</option>
+                    </select>
+                </label>
+                <label>
+                    Night usage (%)
+                    <input id="nightPercent" type="number" min="0" max="100" value="20">
+                </label>
+            </div>
+
+            <button class="primary" onclick="analyze()">Analyze & Predict</button>
+        </div>
+
+        <div class="card">
+            <h2>2. Prediction Result</h2>
+            <div class="result-number" id="prediction">— <small>kWh</small></div>
+            <div id="statusBox" class="status normal">Enter data to generate a prediction.</div>
+
+            <div class="metrics">
+                <div><span>Historical Average</span><strong id="average">—</strong></div>
+                <div><span>Season</span><strong id="season">—</strong></div>
+                <div><span>Season Factor</span><strong id="factor">—</strong></div>
+                <div><span>Trend</span><strong id="trend">—</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid two">
+        <div class="card">
+            <h2>Usage Trend</h2>
+            <canvas id="usageChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Conservation Advice</h2>
+            <div id="recommendations" class="advice">
+                <p class="muted">Recommendations will appear after analysis.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="section-title">
+            <div>
+                <h2>Annual Summary</h2>
+                <p class="muted">Uses all entered monthly values.</p>
+            </div>
+            <button class="secondary" onclick="annualSummary()">Generate Summary</button>
+        </div>
+
+        <div class="summary-grid">
+            <div><span>Total Usage</span><strong id="annualTotal">—</strong></div>
+            <div><span>Average / Month</span><strong id="annualAverage">—</strong></div>
+            <div><span>Highest Month</span><strong id="annualHighest">—</strong></div>
+            <div><span>Lowest Month</span><strong id="annualLowest">—</strong></div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Electricity Cost Estimator</h2>
+        <div class="form-row cost-row">
+            <label>
+                Usage (kWh)
+                <input id="costUsage" type="number" min="0" placeholder="e.g. 450">
+            </label>
+            <label>
+                Rate (₹ / kWh)
+                <input id="rate" type="number" min="0" step="0.01" value="8">
+            </label>
+            <button class="primary" onclick="calculateCost()">Calculate</button>
+        </div>
+        <div class="cost-result" id="costResult">Estimated cost: —</div>
+    </section>
+
+    <section class="rules">
+        <h2>Rule Engine Used</h2>
+        <div class="rule-grid">
+            <div><b>Forecast</b><span>Average usage × seasonal factor</span></div>
+            <div><b>Low</b><span>&lt; 200 kWh</span></div>
+            <div><b>Normal</b><span>200–399 kWh</span></div>
+            <div><b>High</b><span>400–599 kWh</span></div>
+            <div><b>Critical</b><span>≥ 600 kWh</span></div>
+            <div><b>Trend</b><span>Compares the latest two records</span></div>
+        </div>
+    </section>
+</main>
+
+<footer>WattWise • Rule-Based Energy Decision Support System</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
